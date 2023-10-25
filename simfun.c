@@ -160,8 +160,8 @@ void display_program_state(int program_counter){
     printf("PC 0 --> %i\n", program_counter);
     printf("X0: 0 --> %i\n", registers[X0]);
     printf("X1: 0 --> %i\n", registers[X1]);
-    printf("X1: 2 --> %i\n", registers[X2]);
-    printf("X1: 3 --> %i\n", registers[X3]);
+    printf("X2: 2 --> %i\n", registers[X2]);
+    printf("X3: 3 --> %i\n", registers[X3]);
     //TODO: add memory printouts
     //? How does it decide what memory addresses it should print?
 }
