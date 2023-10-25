@@ -144,9 +144,14 @@ int main(int argc, char *argv[])
                             return 1;
                         }
                     }
-                    else
+                    //LDI is absolute not a relative branch
+                    //TODO: This is messy, clean it up
+                    else if(instruction != LDI)
                     {
                         immediate = label_pc - (pc + 1);
+                    }
+                    else {
+                        immediate = label_pc;
                     }
                     if(immediate < -31 || immediate > 31){
                         fprintf(stderr, "Line %i: argument \"%s\"\n exceeds 5 bit immediate range (-31 to 31)\n", line_number, arg);
