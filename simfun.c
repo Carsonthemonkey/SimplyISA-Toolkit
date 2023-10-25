@@ -147,7 +147,7 @@ int decode_register(unsigned char instruction, int arg_num){
     }
     // shift right 2 if arg is 0, and shift 0 if arg is 1
     int rshift = arg_num * 2;
-    //7 is bitmask for 00000111
+    //3 is bitmask for 00000011
     return (instruction >> rshift) & 3;
 }
 
