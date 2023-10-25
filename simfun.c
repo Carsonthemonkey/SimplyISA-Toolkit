@@ -10,6 +10,7 @@ unsigned char registers[4];
 
 int decode_operator(unsigned char instruction);
 int decode_immediate(unsigned char instruction);
+int decode_register(unsigned char instruction, int arg_num);
 void display_program_state(int program_counter);
 
 //first arg is target
@@ -40,21 +41,34 @@ int main(int argc, char* argv[]){
     fread(program, sizeof(unsigned char), MAX_INSTRUCTIONS, file);
     for(pc = 0; pc < MAX_INSTRUCTIONS; pc++){
         // printf("%i\n", program[pc]);
-        int operator = decode_operator(program[pc]);
-        if(program[pc] == HLT){
+        int instruction = program[pc];
+        int operator = decode_operator(instruction);
+        if(instruction == HLT){
             break;
         }
         // BRA instruction
         else if (operator == BRA){
             //decode immediate and set PC to that location
-            int immediate = decode_immediate(program[pc]);
+            int immediate = decode_immediate(instruction);
             // offset pc by immediate
             if(VERBOSE) printf("info BRA: PC: %i --> %i\n", pc, pc + immediate + 1);
             pc += immediate;
         }
+        else if (operator == BZ){
+            // offset pc by immediate if X1 is 0
+            if(registers[X1] == 0){
+                int immediate = decode_immediate(instruction);
+                pc += immediate;
+            }
+        }
+        else if (operator == LD){
+            int R = decode_register(instruction, 0);
+            int S = decode_register(instruction, 1);
+            registers[R] = program[registers[S]];
+        }
         else if (operator == LDI){
             //decode immediate and store in X0
-            int immediate = decode_immediate(program[pc]);
+            int immediate = decode_immediate(instruction);
             if(VERBOSE) printf("info LDI: loading %i into X0\n", immediate);
             registers[X0] = (unsigned char)immediate;
         }
@@ -93,6 +107,24 @@ int decode_immediate(unsigned char instruction){
     // 31 is bitmask for 00011111
     // instruction must be cast to a char so that arithmetic shift works properly
     return (((char)instruction & 31) << shift) >> shift;
+}
+
+/**
+ * @brief Decodes register arguments in an instruction
+ * 
+ * @param instruction the instruction from which to decode the register
+ * @param arg_num the position of the argument to decode 0 decodes argument R (first arg) and 1 decodes argument S (second arg)
+ * @return int 
+ */
+int decode_register(unsigned char instruction, int arg_num){
+    if(!(arg_num == 0 || arg_num == 1)){
+        fprintf(stderr, "arg_num out of ranged. Expected 0 or 1, got %i\n", arg_num);
+        exit(1);
+    }
+    // shift right 2 if arg is 0, and shift 0 if arg is 1
+    int rshift = !arg_num * 2;
+    //7 is bitmask for 00000111
+    return (instruction >> rshift) & 7;
 }
 
 /**
