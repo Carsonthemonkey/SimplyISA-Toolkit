@@ -52,6 +52,12 @@ int main(int argc, char* argv[]){
             if(VERBOSE) printf("info BRA: PC: %i --> %i\n", pc, pc + immediate + 1);
             pc += immediate;
         }
+        else if (operator == LDI){
+            //decode immediate and store in X0
+            int immediate = decode_immediate(program[pc]);
+            if(VERBOSE) printf("info LDI: loading %i into X0\n", immediate);
+            registers[X0] = (unsigned char)immediate;
+        }
 
     }
 
@@ -96,10 +102,10 @@ int decode_immediate(unsigned char instruction){
 void display_program_state(int program_counter){
     printf("HLT encountered at PC = %i\n", program_counter);
     printf("PC 0 --> %i\n", program_counter);
-    printf("X0: 0 --> %i\n", registers[0]);
-    printf("X1: 0 --> %i\n", registers[1]);
-    printf("X1: 2 --> %i\n", registers[2]);
-    printf("X1: 3 --> %i\n", registers[3]);
+    printf("X0: 0 --> %i\n", registers[X0]);
+    printf("X1: 0 --> %i\n", registers[X1]);
+    printf("X1: 2 --> %i\n", registers[X2]);
+    printf("X1: 3 --> %i\n", registers[X3]);
     //TODO: add memory printouts
     //? How does it decide what memory addresses it should print?
 }
