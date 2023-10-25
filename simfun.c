@@ -43,7 +43,7 @@ int main(int argc, char* argv[]){
         // printf("%i\n", program[pc]);
         int instruction = program[pc];
         int operator = decode_operator(instruction);
-        if(instruction == HLT){
+        if(operator == HLT){
             break;
         }
         // BRA instruction
@@ -77,19 +77,19 @@ int main(int argc, char* argv[]){
             if(VERBOSE) printf("info LDI: loading %i into X0\n", immediate);
             registers[X0] = (unsigned char)immediate;
         }
-        else if (instruction == ST){
+        else if (operator == ST){
             int R = decode_register(instruction, 0);
             int S = decode_register(instruction, 1);
             program[registers[S]] = registers[R];
             if(VERBOSE) printf("info ST: Saving value in X%i (%i) to mem[%i]\n", R, registers[R], registers[S]);
         }
-        else if (instruction == ADD){
+        else if (operator == ADD){
             int R = decode_register(instruction, 0);
             int S = decode_register(instruction, 1);
             if(VERBOSE) printf("info ADD: loading %i + %i into register X%i\n", registers[R], registers[S], R);
             registers[R] += registers[S];
         }
-        else if (instruction == NEG){
+        else if (operator == NEG){
             // 1 because neg stores it in rightmost position
             int R = decode_register(instruction, 1);
             if(VERBOSE) printf("info NEG: negating value in X%i (%i)\n", R, registers[R]);
