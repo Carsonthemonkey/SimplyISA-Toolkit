@@ -89,6 +89,12 @@ int main(int argc, char* argv[]){
             if(VERBOSE) printf("info ADD: loading %i + %i into register X%i\n", registers[R], registers[S], R);
             registers[R] += registers[S];
         }
+        else if (instruction == NEG){
+            // 1 because neg stores it in rightmost position
+            int R = decode_register(instruction, 1);
+            if(VERBOSE) printf("info NEG: negating value in X%i (%i)\n", R, registers[R]);
+            registers[R] *= -1;
+        }
     }
 
     if(pc == MAX_INSTRUCTIONS){
