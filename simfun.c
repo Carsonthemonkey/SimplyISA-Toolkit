@@ -39,7 +39,7 @@ int main(int argc, char* argv[]){
     int pc;
     fread(program, sizeof(unsigned char), MAX_INSTRUCTIONS, file);
     for(pc = 0; pc < MAX_INSTRUCTIONS; pc++){
-        printf("%i\n", program[pc]);
+        // printf("%i\n", program[pc]);
         int operator = decode_operator(program[pc]);
         if(program[pc] == HLT){
             break;
