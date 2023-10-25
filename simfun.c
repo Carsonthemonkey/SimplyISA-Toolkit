@@ -4,6 +4,8 @@
 
 #define MAX_INSTRUCTIONS 1024
 
+unsigned char registers[4];
+
 int decode_operator(unsigned char instruction);
 void display_program_state(int program_counter);
 
@@ -61,5 +63,11 @@ int decode_operator(unsigned char instruction){
  */
 void display_program_state(int program_counter){
     printf("HLT encountered at PC = %i\n", program_counter);
-    //TODO: Implement
+    printf("PC 0 --> %i\n", program_counter);
+    printf("X0: 0 --> %i\n", registers[0]);
+    printf("X1: 0 --> %i\n", registers[1]);
+    printf("X1: 2 --> %i\n", registers[2]);
+    printf("X1: 3 --> %i\n", registers[3]);
+    //TODO: add memory printouts
+    //? How does it decide what memory addresses it should print?
 }
