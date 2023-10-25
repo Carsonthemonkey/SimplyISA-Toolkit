@@ -68,8 +68,8 @@ int main(int argc, char* argv[]){
         else if (operator == LD){
             int R = decode_register(instruction, 0);
             int S = decode_register(instruction, 1);
-            registers[R] = program[registers[S]];
             if(VERBOSE) printf("info LD: loading value at mem[%i] (%i) into register X%i\n", registers[S], program[registers[S]], R);
+            registers[R] = program[registers[S]];
         }
         else if (operator == LDI){
             //decode immediate and store in X0
@@ -144,7 +144,7 @@ int decode_register(unsigned char instruction, int arg_num){
         exit(1);
     }
     // shift right 2 if arg is 0, and shift 0 if arg is 1
-    int rshift = !arg_num * 2;
+    int rshift = arg_num * 2;
     //7 is bitmask for 00000111
     return (instruction >> rshift) & 7;
 }
