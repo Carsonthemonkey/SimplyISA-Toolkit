@@ -2,29 +2,11 @@
 #include <string.h>
 #include <stdint.h>
 #include <stdlib.h>
+#include "simply.h"
 
 #define MAX_LABELS 100
 #define TOKEN_DELIMITER " ,"
 
-// Operator Encodings
-#define BRA 0 //! FOR TESTING, THIS SHOULD BE 0
-#define BZ 32
-#define LD 64
-#define LDI 96
-#define ST 128
-#define ADD 160
-#define NEG 192
-#define HLT 224
-// Register Encodings
-
-// 00
-#define X0 0
-// 01
-#define X1 1
-// 10
-#define X2 2
-// 11
-#define X3 3
 
 // arguments defined as:
 // arg 1: target assembly file
