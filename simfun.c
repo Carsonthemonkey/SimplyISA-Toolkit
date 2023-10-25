@@ -5,6 +5,7 @@
 #define MAX_INSTRUCTIONS 1024
 
 int decode_operator(unsigned char instruction);
+void display_program_state(int program_counter);
 
 int main(int argc, char* argv[]){
 
@@ -24,15 +25,23 @@ int main(int argc, char* argv[]){
 
     unsigned char program[MAX_INSTRUCTIONS];
 
+    int pc;
     fread(program, sizeof(unsigned char), MAX_INSTRUCTIONS, file);
-    for(int pc = 0; pc < 256; pc++){
+    for(pc = 0; pc < MAX_INSTRUCTIONS; pc++){
         printf("%i\n", program[pc]);
         int operator = decode_operator(program[pc]);
         if(program[pc] == HLT){
-            printf("HLT Detected: End File.\n");
             break;
         }
     }
+
+    if(pc == MAX_INSTRUCTIONS){
+        fprintf(stderr, "Exceeded max instructions (%i)\n", MAX_INSTRUCTIONS);
+        return 1;
+    }
+
+    display_program_state(pc);
+    return 0;
 }
 
 /**
@@ -50,6 +59,7 @@ int decode_operator(unsigned char instruction){
  * @brief Displays the final program state
  * 
  */
-void display_program_state(){
+void display_program_state(int program_counter){
+    printf("HLT encountered at PC = %i\n", program_counter);
     //TODO: Implement
 }
