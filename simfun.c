@@ -1,15 +1,19 @@
 #include <stdlib.h>
 #include <stdio.h>
+#include <string.h>
 #include "simply.h"
 
 #define MAX_INSTRUCTIONS 1024
 
+int VERBOSE = 0;
 unsigned char registers[4];
 
 int decode_operator(unsigned char instruction);
 int decode_immediate(unsigned char instruction);
 void display_program_state(int program_counter);
 
+//first arg is target
+//second arg (optional) is verbose mode if input is '-v' (off by default) 
 int main(int argc, char* argv[]){
 
     if (argc == 1)
@@ -20,6 +24,10 @@ int main(int argc, char* argv[]){
 
     char *fileName = argv[1];
     
+    if(argc > 2){
+        if(!strcmp(argv[2], "-v")) VERBOSE = 1;
+    }
+
     FILE *file = fopen(fileName, "rb");
     if(file == NULL){
         fprintf(stderr, "Could not find specified input file\n");
@@ -40,6 +48,9 @@ int main(int argc, char* argv[]){
         else if (operator == BRA){
             //decode immediate and set PC to that location
             int immediate = decode_immediate(program[pc]);
+            // offset pc by immediate
+            if(VERBOSE) printf("info BRA: PC: %i --> %i\n", pc, pc + immediate + 1);
+            pc += immediate;
         }
 
     }
