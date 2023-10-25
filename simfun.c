@@ -50,27 +50,38 @@ int main(int argc, char* argv[]){
         else if (operator == BRA){
             //decode immediate and set PC to that location
             int immediate = decode_immediate(instruction);
-            // offset pc by immediate
             if(VERBOSE) printf("info BRA: PC: %i --> %i\n", pc, pc + immediate + 1);
+            // offset pc by immediate
             pc += immediate;
         }
         else if (operator == BZ){
             // offset pc by immediate if X1 is 0
             if(registers[X1] == 0){
                 int immediate = decode_immediate(instruction);
+                if(VERBOSE) printf("info BZ: PC: %i --> %i\n", pc, pc + immediate + 1);
                 pc += immediate;
+            }
+            else if (VERBOSE){
+                printf("info BZ: X1 is %i, continuing to next PC\n", registers[X1]);
             }
         }
         else if (operator == LD){
             int R = decode_register(instruction, 0);
             int S = decode_register(instruction, 1);
             registers[R] = program[registers[S]];
+            if(VERBOSE) printf("info LD: loading value at mem[%i] (%i) into register X%i\n", registers[S], program[registers[S]], R);
         }
         else if (operator == LDI){
             //decode immediate and store in X0
             int immediate = decode_immediate(instruction);
             if(VERBOSE) printf("info LDI: loading %i into X0\n", immediate);
             registers[X0] = (unsigned char)immediate;
+        }
+        else if (instruction == ST){
+            int R = decode_register(instruction, 0);
+            int S = decode_register(instruction, 1);
+            program[registers[S]] = registers[R];
+            if(VERBOSE) printf("info ST: Saving value in X%i (%i) to mem[%i]\n", R, registers[R], registers[S]);
         }
 
     }
