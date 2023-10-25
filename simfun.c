@@ -7,6 +7,7 @@
 unsigned char registers[4];
 
 int decode_operator(unsigned char instruction);
+int decode_immediate(unsigned char instruction);
 void display_program_state(int program_counter);
 
 int main(int argc, char* argv[]){
@@ -55,6 +56,18 @@ int main(int argc, char* argv[]){
 int decode_operator(unsigned char instruction){
     // 224 is a mask for 11100000
     return instruction & 224;
+}
+
+/**
+ * @brief Decodes immediate constants by masking out the 3 most significant bits
+ * 
+ * @param instruction instruction to decode
+ * @return int 
+ */
+int decode_immediate(unsigned char instruction){
+    // 31 is bitmask for 00011111
+    //TODO: This needs to respect signs of negative numbers. Perhaps casting to a signed char would work?
+    return instruction & 31;
 }
 
 /**
