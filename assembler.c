@@ -22,6 +22,7 @@ struct label
 
 struct label labels[MAX_LABELS];
 int label_count = 0;
+int line_number = 0;
 
 int get_label_index(char *label_name);
 int encode_operator(char *operator_name);
@@ -92,6 +93,7 @@ int main(int argc, char *argv[])
 
     while (fgets(line, 256, file))
     {
+        line_number++;
         token = strtok(line, TOKEN_DELIMITER);
         trunc_token(token);
         if (token[0] == '#')
@@ -113,7 +115,7 @@ int main(int argc, char *argv[])
                 // token is not an operator
                 if (!str_to_int(token, &instruction))
                 {
-                    fprintf(stderr, "Token \"%s\" is not a valid operator or constant\n", token);
+                    fprintf(stderr, "Line %i: Token \"%s\" is not a valid operator or constant\n", line_number, token);
                     return 1;
                 }
             }
@@ -126,7 +128,7 @@ int main(int argc, char *argv[])
                 trunc_token(arg);
                 if (arg == NULL || is_whitespace(arg))
                 {
-                    fprintf(stderr, "Operator %s Expects an argument\n", token);
+                    fprintf(stderr, "Line %i: Operator %s Expects an argument\n",line_number, token);
                     return 1;
                 }
                 // if instruction takes 5 bit immediate
@@ -138,7 +140,7 @@ int main(int argc, char *argv[])
                     {
                         if (!str_to_int(arg, &immediate))
                         {
-                            fprintf(stderr, "Token \"%s\" is not a valid constant or label\n", arg);
+                            fprintf(stderr, "Line %i: Token \"%s\" is not a valid constant or label\n", line_number, arg);
                             return 1;
                         }
                     }
@@ -146,9 +148,8 @@ int main(int argc, char *argv[])
                     {
                         immediate = label_pc - (pc + 1);
                     }
-                    // TODO: throw error if |immediate| is larger than 31
                     if(immediate < -31 || immediate > 31){
-                        fprintf(stderr, "argument \"%s\"\n exceeds 5 bit immediate range (-31 to 31)\n", arg);
+                        fprintf(stderr, "Line %i: argument \"%s\"\n exceeds 5 bit immediate range (-31 to 31)\n", line_number, arg);
                     }
                     if (immediate < 1)
                         immediate = to_five_bit_twos_complement(immediate);
@@ -166,43 +167,15 @@ int main(int argc, char *argv[])
                     trunc_token(arg);
                     if (arg == NULL || is_whitespace(arg))
                     {
-                        fprintf(stderr, "Operator %s Expects two arguments\n", token);
+                        fprintf(stderr, "Line %i: Operator %s Expects two arguments\n", line_number, token);
                         return 1;
                     }
                     int S;
-                    if (instruction == ADD)
+                    S = encode_register(arg);
+                    if (S == -1)
                     {
-                        // S is register
-                        S = encode_register(arg);
-                        if (S == -1)
-                        {
-                            fprintf(stderr, "\"%s\" is not a valid register\n", arg);
-                            return 1;
-                        }
-                    }
-                    else
-                    {
-                        // S is memory address (label or const)
-                        int label_pc = get_label_index(arg);
-                        if (label_pc == -1)
-                        {
-                            // S is a const
-                            if (!str_to_int(arg, &S))
-                            {
-                                fprintf(stderr, "\"%s\" Is not a valid constant or label\n", arg);
-                                return 1;
-                            }
-                        }
-                        else
-                        {
-                            S = label_pc;
-                        }
-                        // else, S is already the correct value
-                        if (S > 3)
-                        {
-                            fprintf(stderr, "Label \"%s\" out of bounds. LD and ST only support memory addresses 0, 1, 2, and 3\n", arg);
-                            return 1;
-                        }
+                        fprintf(stderr, "Line %i: \"%s\" is not a valid register\n", line_number, arg);
+                        return 1;
                     }
                     instruction += R;
                     // Shift S into the correct position
@@ -221,7 +194,7 @@ int main(int argc, char *argv[])
     FILE *out = fopen(outfile, "wb");
     if (out == NULL)
     {
-        fprintf(stderr, "Failed to create outfile\n");
+        fprintf(stderr, "Line %i: Failed to create outfile\n", line_number);
         return 1;
     }
 
