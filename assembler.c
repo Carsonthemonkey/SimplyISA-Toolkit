@@ -7,7 +7,7 @@
 #define MAX_LABELS 100
 #define TOKEN_DELIMITER " ,"
 
-
+//TODO: implement NEG in assembler
 // arguments defined as:
 // arg 1: target assembly file
 // arg 2 (optional): outfile name
