@@ -36,6 +36,11 @@ int main(int argc, char* argv[]){
         if(program[pc] == HLT){
             break;
         }
+        // BRA instruction
+        else if (operator == BRA){
+            //decode immediate and set PC to that location
+        }
+
     }
 
     if(pc == MAX_INSTRUCTIONS){
@@ -66,8 +71,8 @@ int decode_operator(unsigned char instruction){
  */
 int decode_immediate(unsigned char instruction){
     // 31 is bitmask for 00011111
-    //TODO: This needs to respect signs of negative numbers. Perhaps casting to a signed char would work?
-    return instruction & 31;
+    //shifting left 3 and back should preserve sign if immediate was negative
+    return ((instruction & 31) << 3) >> 3;
 }
 
 /**
