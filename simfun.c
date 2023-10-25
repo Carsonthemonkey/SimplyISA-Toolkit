@@ -83,7 +83,12 @@ int main(int argc, char* argv[]){
             program[registers[S]] = registers[R];
             if(VERBOSE) printf("info ST: Saving value in X%i (%i) to mem[%i]\n", R, registers[R], registers[S]);
         }
-
+        else if (instruction == ADD){
+            int R = decode_register(instruction, 0);
+            int S = decode_register(instruction, 1);
+            if(VERBOSE) printf("info ADD: loading %i + %i into register X%i\n", registers[R], registers[S], R);
+            registers[R] += registers[S];
+        }
     }
 
     if(pc == MAX_INSTRUCTIONS){
