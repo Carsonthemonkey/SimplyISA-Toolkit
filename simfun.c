@@ -1,6 +1,6 @@
 #include <stdlib.h>
 #include <stdio.h>
-
+#include "simply.h"
 
 int main(int argc, char* argv[]){
 
@@ -15,11 +15,14 @@ int main(int argc, char* argv[]){
 
     
     FILE *file = fopen(fileName, "rb");
+    if(file == NULL){
+        fprintf(stderr, "Could not find specified input file\n");
+        return 1;
+    }
     fread(buffer, sizeof(buffer), 1, file);
-    return 0;
     for(int i = 0; i < 256; i++){
-        if(buffer[i] == 'H'){
-            printf("HLT\n");
+        printf("%i\n", buffer[i]);
+        if(buffer[i] == HLT){
             printf("HLT Detected: End File.\n");
             break;
         }
