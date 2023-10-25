@@ -20,12 +20,12 @@ int main(int argc, char* argv[]){
         return 1;
     }
 
-    unsigned char buffer[MAX_INSTRUCTIONS];
+    unsigned char program[MAX_INSTRUCTIONS];
 
-    fread(buffer, sizeof(unsigned char), MAX_INSTRUCTIONS, file);
-    for(int i = 0; i < 256; i++){
-        printf("%i\n", buffer[i]);
-        if(buffer[i] == HLT){
+    fread(program, sizeof(unsigned char), MAX_INSTRUCTIONS, file);
+    for(int pc = 0; pc < 256; pc++){
+        printf("%i\n", program[pc]);
+        if(program[pc] == HLT){
             printf("HLT Detected: End File.\n");
             break;
         }
