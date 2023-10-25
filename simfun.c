@@ -1,6 +1,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 
+
 int main(int argc, char* argv[]){
 
     if (argc == 1)
@@ -8,13 +9,14 @@ int main(int argc, char* argv[]){
         fprintf(stderr, "No target assembly file specified\n");
         return 1;
     }
-    char *fileName = argv[2];
 
+    char *fileName = argv[1];
     unsigned char buffer[256];
 
     
     FILE *file = fopen(fileName, "rb");
     fread(buffer, sizeof(buffer), 1, file);
+    return 0;
     for(int i = 0; i < 256; i++){
         if(buffer[i] == 'H'){
             printf("HLT\n");
