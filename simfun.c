@@ -6,6 +6,8 @@
 #define MAX_INSTRUCTIONS 1024
 
 int VERBOSE = 0;
+
+//I think the registers being unsigned can cause some problems with ADD.
 unsigned char registers[4];
 
 int decode_operator(unsigned char instruction);
@@ -146,7 +148,7 @@ int decode_register(unsigned char instruction, int arg_num){
     // shift right 2 if arg is 0, and shift 0 if arg is 1
     int rshift = arg_num * 2;
     //7 is bitmask for 00000111
-    return (instruction >> rshift) & 7;
+    return (instruction >> rshift) & 3;
 }
 
 /**
