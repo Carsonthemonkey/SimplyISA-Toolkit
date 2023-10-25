@@ -1,8 +1,5 @@
 # Lab 5: Square
-# written by Kat Berge, Carson Reader, Maximum DeCorso
-# There is an error with this as of right now according to Wyeth. Apparently LD can only load contents of registers into another register. 
-# This means we must initally load all constants into X0 using LDI and then transfer them to where we want them. 
-# The assembler will need to be updated to support this change as well.   
+# written by Kat Berge, Carson Reader, Maximum DeCorso  
     BRA start
 IN: 42
 OUT: 0
