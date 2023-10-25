@@ -4,22 +4,22 @@
 void processBinaryFile(FILE *file){
 
     unsigned char buffer[10];
-    FILE *ptr;
-    ptr = fopen("binary.bin", "rb");
-    fread(buffer, sizeof(buffer), 1, ptr);
+    FILE *file;
+    file = fopen("binary.bin", "rb");
+    fread(buffer, sizeof(buffer), 1, file);
 
 }
 
 int main(){
     unsigned char buffer[256];
-    FILE *ptr;
+    FILE *file;
     char fileName[10];
 
     printf("Enter File Name: ");
     scanf("%s", fileName);
 
-    ptr = fopen(fileName, "rb");
-    fread(buffer, sizeof(buffer), 1, ptr);
+    file = fopen(fileName, "rb");
+    fread(buffer, sizeof(buffer), 1, file);
     for(int i = 0; i < 256; i++){
         if(buffer[i] == 'H'){
             printf("HLT\n");
