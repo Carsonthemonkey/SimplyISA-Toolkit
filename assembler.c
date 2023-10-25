@@ -146,7 +146,6 @@ int main(int argc, char *argv[])
                     {
                         immediate = label_pc - (pc + 1);
                     }
-                    // TODO: throw error if |immediate| is larger than 31
                     if(immediate < -31 || immediate > 31){
                         fprintf(stderr, "argument \"%s\"\n exceeds 5 bit immediate range (-31 to 31)\n", arg);
                     }
@@ -170,39 +169,11 @@ int main(int argc, char *argv[])
                         return 1;
                     }
                     int S;
-                    if (instruction == ADD)
+                    S = encode_register(arg);
+                    if (S == -1)
                     {
-                        // S is register
-                        S = encode_register(arg);
-                        if (S == -1)
-                        {
-                            fprintf(stderr, "\"%s\" is not a valid register\n", arg);
-                            return 1;
-                        }
-                    }
-                    else
-                    {
-                        // S is memory address (label or const)
-                        int label_pc = get_label_index(arg);
-                        if (label_pc == -1)
-                        {
-                            // S is a const
-                            if (!str_to_int(arg, &S))
-                            {
-                                fprintf(stderr, "\"%s\" Is not a valid constant or label\n", arg);
-                                return 1;
-                            }
-                        }
-                        else
-                        {
-                            S = label_pc;
-                        }
-                        // else, S is already the correct value
-                        if (S > 3)
-                        {
-                            fprintf(stderr, "Label \"%s\" out of bounds. LD and ST only support memory addresses 0, 1, 2, and 3\n", arg);
-                            return 1;
-                        }
+                        fprintf(stderr, "\"%s\" is not a valid register\n", arg);
+                        return 1;
                     }
                     instruction += R;
                     // Shift S into the correct position
