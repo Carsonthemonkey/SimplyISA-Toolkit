@@ -39,6 +39,7 @@ int main(int argc, char* argv[]){
         // BRA instruction
         else if (operator == BRA){
             //decode immediate and set PC to that location
+            int immediate = decode_immediate(program[pc]);
         }
 
     }
@@ -70,9 +71,11 @@ int decode_operator(unsigned char instruction){
  * @return int 
  */
 int decode_immediate(unsigned char instruction){
+    // check size of car to determine shift
+    long shift = sizeof(char) - 5;
     // 31 is bitmask for 00011111
-    //shifting left 3 and back should preserve sign if immediate was negative
-    return ((instruction & 31) << 3) >> 3;
+    // instruction must be cast to a char so that arithmetic shift works properly
+    return (((char)instruction & 31) << shift) >> shift;
 }
 
 /**
