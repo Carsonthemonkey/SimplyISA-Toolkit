@@ -28,6 +28,7 @@ The simulator can be used to run SimplyISA bytecode. It can be compiled by runni
 1. **Target File**: The target bytecode file to execute.
 2. **Verbose (optional)**: provide `-v` as the second argument to run the simulator in verbose mode. This will output each step as it is executed instead of just the final program state. Default is off.
 
+For example, you would run `./simfun square.bin -v` to run the the `square.bin` binary in verbose mode.
 ## Build commands
 - Run `make` to compile the assembler and simulator
 - `make clean` removes the compiled files, and any binary files ending in `.bin`.
