@@ -8,11 +8,15 @@
 int VERBOSE = 0;
 
 //I think the registers being unsigned can cause some problems with ADD.
-unsigned char registers[4];
+char registers[4];
+unsigned char program[MAX_INSTRUCTIONS];
+
 
 int decode_operator(unsigned char instruction);
 int decode_immediate(unsigned char instruction);
 int decode_register(unsigned char instruction, int arg_num);
+char get_value_at_pointer(unsigned char reg);
+void save_value_at_ptr(unsigned char reg, char value);
 void display_program_state(int program_counter);
 
 //first arg is target
@@ -36,8 +40,6 @@ int main(int argc, char* argv[]){
         fprintf(stderr, "Could not find specified input file\n");
         return 1;
     }
-
-    unsigned char program[MAX_INSTRUCTIONS];
 
     int pc;
     fread(program, sizeof(unsigned char), MAX_INSTRUCTIONS, file);
@@ -70,8 +72,9 @@ int main(int argc, char* argv[]){
         else if (operator == LD){
             int R = decode_register(instruction, 0);
             int S = decode_register(instruction, 1);
-            if(VERBOSE) printf("info LD: loading value at mem[%i] (%i) into register X%i\n", registers[S], program[registers[S]], R);
-            registers[R] = program[registers[S]];
+            if(VERBOSE) printf("info LD: loading value at mem[%i] (%i) into register X%i\n", registers[S], get_value_at_pointer(S), R);
+            // registers[R] = program[registers[S]];
+            registers[R] = get_value_at_pointer(S);
         }
         else if (operator == LDI){
             //decode immediate and store in X0
@@ -82,7 +85,8 @@ int main(int argc, char* argv[]){
         else if (operator == ST){
             int R = decode_register(instruction, 0);
             int S = decode_register(instruction, 1);
-            program[registers[S]] = registers[R];
+            // program[registers[S]] = registers[R];
+            save_value_at_ptr(S, registers[R]);
             if(VERBOSE) printf("info ST: Saving value in X%i (%i) to mem[%i]\n", R, registers[R], registers[S]);
         }
         else if (operator == ADD){
@@ -149,6 +153,19 @@ int decode_register(unsigned char instruction, int arg_num){
     int rshift = arg_num * 2;
     //3 is bitmask for 00000011
     return (instruction >> rshift) & 3;
+}
+
+char get_value_at_pointer(unsigned char reg){
+    // get the value in the register reg and cast it to an unsigned int so it can be used as an array subscript
+    unsigned char ptr = (unsigned char)registers[reg];
+    // use the ptr to get the value in the program memory. Then cast that as a signed char so that it can be interpreted as negative
+    return (char)program[ptr];
+}
+
+void save_value_at_ptr(unsigned char reg, char value){
+    // get the value in the register reg and cast it to an unsigned int so it can be used as an array subscript
+    unsigned char ptr = (unsigned char)registers[reg];
+    program[ptr] = value;
 }
 
 /**
