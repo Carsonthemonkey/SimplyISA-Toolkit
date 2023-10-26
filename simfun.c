@@ -48,6 +48,7 @@ int main(int argc, char* argv[]){
         int instruction = program[pc];
         int operator = decode_operator(instruction);
         if(operator == HLT){
+            if(VERBOSE) printf("info HLT: Halting\n");
             break;
         }
         // BRA instruction
@@ -102,10 +103,13 @@ int main(int argc, char* argv[]){
         }
     }
 
+
     if(pc == MAX_INSTRUCTIONS){
         fprintf(stderr, "Exceeded max instructions (%i)\n", MAX_INSTRUCTIONS);
         return 1;
     }
+    
+    if(VERBOSE) printf("\n");
 
     display_program_state(pc);
     return 0;
