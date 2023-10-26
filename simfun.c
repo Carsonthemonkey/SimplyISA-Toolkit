@@ -85,7 +85,6 @@ int main(int argc, char* argv[]){
         else if (operator == ST){
             int R = decode_register(instruction, 0);
             int S = decode_register(instruction, 1);
-            // program[registers[S]] = registers[R];
             save_value_at_ptr(S, registers[R]);
             if(VERBOSE) printf("info ST: Saving value in X%i (%i) to mem[%i]\n", R, registers[R], registers[S]);
         }
@@ -133,7 +132,7 @@ char decode_immediate(unsigned char instruction){
     // check size of car to determine shift
     long shift = sizeof(char) - 5;
     // 31 is bitmask for 00011111
-    // instruction must be cast to a char so that arithmetic shift works properly
+    // instruction must be cast to a signed char so that arithmetic shift works properly
     return (((char)instruction & 31) << shift) >> shift;
 }
 
@@ -151,10 +150,16 @@ unsigned char decode_register(unsigned char instruction, int arg_num){
     }
     // shift right 2 if arg is 0, and shift 0 if arg is 1
     int rshift = arg_num * 2;
-    //3 is bitmask for 00000011
+    // 3 is bitmask for 00000011
     return (instruction >> rshift) & 3;
 }
 
+/**
+ * @brief Retrieve the value in memory pointed to by the value in register reg
+ * 
+ * @param reg The register index of the memory value
+ * @return char The value in memory that register reg points to
+ */
 char get_value_at_pointer(unsigned char reg){
     // get the value in the register reg and cast it to an unsigned int so it can be used as an array subscript
     unsigned char ptr = (unsigned char)registers[reg];
@@ -162,6 +167,12 @@ char get_value_at_pointer(unsigned char reg){
     return (char)program[ptr];
 }
 
+/**
+ * @brief Stores value at the program memory address pointed to by the value in register reg 
+ * 
+ * @param reg The register index of the memory pointer
+ * @param value The value to be saved to memory
+ */
 void save_value_at_ptr(unsigned char reg, char value){
     // get the value in the register reg and cast it to an unsigned int so it can be used as an array subscript
     unsigned char ptr = (unsigned char)registers[reg];
