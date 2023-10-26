@@ -75,6 +75,7 @@ int main(int argc, char* argv[]){
             if(registers[X1] == 0){
                 int immediate = decode_immediate(instruction);
                 if(VERBOSE) printf("info BZ: PC: %i --> %i\n", pc, pc + immediate + 1);
+                printf("DEBUG: %i from %i\n ", immediate, instruction);
                 pc += immediate;
             }
             else if (VERBOSE){
@@ -145,7 +146,7 @@ unsigned char decode_operator(unsigned char instruction){
  */
 char decode_immediate(unsigned char instruction){
     // check size of char to determine shift
-    long shift = sizeof(char) - 5;
+    long shift = sizeof(char) * 8 - 5;
     // 31 is bitmask for 00011111
     // instruction must be cast to a signed char so that arithmetic shift works properly
     return (((char)instruction & 31) << shift) >> shift;
