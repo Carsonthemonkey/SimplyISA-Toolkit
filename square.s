@@ -1,7 +1,7 @@
 # Lab 5: Square
 # written by Kat Berge, Carson Reader, Maximum DeCorso  
     BRA start
-IN: 2
+IN: 3
 OUT: 0
 
 start: LDI IN           # pointer to val of IN into X0
