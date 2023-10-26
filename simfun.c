@@ -191,4 +191,5 @@ void display_program_state(int program_counter){
     printf("X1: 0 --> %i\n", registers[X1]);
     printf("X2: 0 --> %i\n", registers[X2]);
     printf("X3: 0 --> %i\n", registers[X3]);
+    printf("mem[2] 0 --> %i\n", program[2]);
 }
