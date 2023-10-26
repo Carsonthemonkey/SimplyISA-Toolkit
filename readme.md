@@ -18,7 +18,7 @@ Note the following syntax specific to this assembler:
 - Labels must end with a `:`
 - Labels must include an instruction or constant *on the same line*
 - brackets (`[]`) are neither required nor supported
-- `LDI` should only be provided with one argument, the memory address. The `X0` argument of `LDI` is implicit.
+- `LDI` and `BZ` should only be provided with one argument, the memory address. The `X0` argument of `LDI` and `X1` argument of `BZ` are implicit.
 - Comments must begin with an `#`. They can be on the same line as an instruction or on their own lines
 - Constants must be represented in decimal (base 10) 
 - Indentation and empty lines are ignored, and can be used at your discretion.
