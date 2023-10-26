@@ -129,7 +129,7 @@ unsigned char decode_operator(unsigned char instruction){
  * @return int 
  */
 char decode_immediate(unsigned char instruction){
-    // check size of car to determine shift
+    // check size of char to determine shift
     long shift = sizeof(char) - 5;
     // 31 is bitmask for 00011111
     // instruction must be cast to a signed char so that arithmetic shift works properly
