@@ -148,8 +148,8 @@ unsigned char decode_register(unsigned char instruction, int arg_num){
         fprintf(stderr, "arg_num out of ranged. Expected 0 or 1, got %i\n", arg_num);
         exit(1);
     }
-    // shift right 2 if arg is 0, and shift 0 if arg is 1
-    int rshift = arg_num * 2;
+    // shift right 0 if arg is 0, and shift 2 if arg is 1
+    int rshift = arg_num * 2;   
     // 3 is bitmask for 00000011
     return (instruction >> rshift) & 3;
 }
