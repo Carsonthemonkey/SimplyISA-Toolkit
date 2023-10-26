@@ -8,7 +8,6 @@ start: LDI IN           # pointer to val of IN into X0
     LD X2, X0           # load value in input a register
     LD X1, X0           # also load value into X1 to keep track of count
     LDI -1              # store the constant -1 in X0
-    ADD X1, X0          # decrement count to avoid off by one error
 square: ADD X3, X2      # add X2 to the overall sum (X3)
     ADD X1, X0          # decrement count using the -1 constant
     BZ end              # if count is zero (count is done) go to end 
