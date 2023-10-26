@@ -3,18 +3,18 @@
 #include <string.h>
 #include "simply.h"
 
-#define MAX_INSTRUCTIONS 1024
+#define MAX_INSTRUCTIONS 255
 
 int VERBOSE = 0;
 
-//I think the registers being unsigned can cause some problems with ADD.
+//registers are signed, as they can hold negative values
 char registers[4];
 unsigned char program[MAX_INSTRUCTIONS];
 
 
-int decode_operator(unsigned char instruction);
-int decode_immediate(unsigned char instruction);
-int decode_register(unsigned char instruction, int arg_num);
+unsigned char decode_operator(unsigned char instruction);
+unsigned char decode_register(unsigned char instruction, int arg_num);
+char decode_immediate(unsigned char instruction);
 char get_value_at_pointer(unsigned char reg);
 void save_value_at_ptr(unsigned char reg, char value);
 void display_program_state(int program_counter);
@@ -118,7 +118,7 @@ int main(int argc, char* argv[]){
  * @param instruction the instruction byte to decode
  * @return int 
  */
-int decode_operator(unsigned char instruction){
+unsigned char decode_operator(unsigned char instruction){
     // 224 is a mask for 11100000
     return instruction & 224;
 }
@@ -129,7 +129,7 @@ int decode_operator(unsigned char instruction){
  * @param instruction instruction to decode
  * @return int 
  */
-int decode_immediate(unsigned char instruction){
+char decode_immediate(unsigned char instruction){
     // check size of car to determine shift
     long shift = sizeof(char) - 5;
     // 31 is bitmask for 00011111
@@ -144,7 +144,7 @@ int decode_immediate(unsigned char instruction){
  * @param arg_num the position of the argument to decode 0 decodes argument R (first arg) and 1 decodes argument S (second arg)
  * @return int 
  */
-int decode_register(unsigned char instruction, int arg_num){
+unsigned char decode_register(unsigned char instruction, int arg_num){
     if(!(arg_num == 0 || arg_num == 1)){
         fprintf(stderr, "arg_num out of ranged. Expected 0 or 1, got %i\n", arg_num);
         exit(1);
