@@ -173,6 +173,7 @@ void save_value_at_ptr(unsigned char reg, char value){
  * 
  */
 void display_program_state(int program_counter){
+    printf("---------- Program State ----------\n");
     printf("HLT encountered at PC = %i\n", program_counter);
     printf("PC 0 --> %i\n", program_counter);
     printf("X0: 0 --> %i\n", registers[X0]);
