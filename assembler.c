@@ -165,7 +165,7 @@ int main(int argc, char *argv[])
                     int R = encode_register(arg);
                     if (R == -1)
                     {
-                        fprintf(stderr, "\"%s\" is not a valid register\n", arg);
+                        fprintf(stderr, "Line %i: \"%s\" is not a valid register\n", line_number, arg);
                         return 1;
                     }
                     arg = strtok(NULL, TOKEN_DELIMITER);
