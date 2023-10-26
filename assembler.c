@@ -186,6 +186,14 @@ int main(int argc, char *argv[])
                     // Shift S into the correct position
                     instruction += S << 2;
                 }
+                else if (instruction == NEG){
+                    int R = encode_register(arg);
+                    if (R == -1){
+                        fprintf(stderr, "\"%s\" is not a valid register\n", arg);
+                        return 1;
+                    }
+                    instruction += R;
+                }
             }
 
             bytes[pc] = (unsigned char)instruction;
