@@ -16,6 +16,3 @@ square: ADD X3, X2      # add X2 to the overall sum (X3)
 end: LDI OUT            # load pointer to val of OUT into X0
     ST X3, X0           # load X0 value from the register into out 
     HLT
-
-
-# TODO: X1 needs to be the counter for BZ to work
