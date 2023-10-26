@@ -1,3 +1,14 @@
+/**
+ * @file simfun.c
+ * @author Carson Reader, Kat Berge, Max DeCorso
+ * @brief A SimplyISA simulator. It reads SimplyISA bytecode and simulates it's execution.
+ * @version 1.0
+ * @date 2023-10-25
+ * 
+ * @copyright Copyright (c) 2023
+ * 
+ */
+
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
@@ -108,7 +119,7 @@ int main(int argc, char* argv[]){
         fprintf(stderr, "Exceeded max instructions (%i)\n", MAX_INSTRUCTIONS);
         return 1;
     }
-    
+
     if(VERBOSE) printf("\n");
 
     display_program_state(pc);

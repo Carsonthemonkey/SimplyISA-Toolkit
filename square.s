@@ -1,5 +1,6 @@
 # Lab 5: Square
-# written by Kat Berge, Carson Reader, Maximum DeCorso  
+# Authors: Kat Berge, Carson Reader, Maximum DeCorso  
+
     BRA start
 IN: 3
 OUT: 0

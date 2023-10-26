@@ -1,3 +1,11 @@
+/**
+ * @file assembler.c
+ * @author Carson Reader 
+ * @brief An assembler for the 8-bit SimplyISA assembly language. It 'assembles' SimplyISA into bytecode that can be executed by a SimplyISA simulator
+ * @version 1.0
+ * @date 2023-10-25
+ */
+
 #include <stdio.h>
 #include <string.h>
 #include <stdint.h>
