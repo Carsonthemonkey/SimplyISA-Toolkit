@@ -129,7 +129,7 @@ int main(int argc, char* argv[]){
  * @brief Decodes the operator from the instruction passed to it by masking out the 5 least significant bits
  * 
  * @param instruction the instruction byte to decode
- * @return int 
+ * @return unsigned char
  */
 unsigned char decode_operator(unsigned char instruction){
     // 224 is a mask for 11100000
@@ -140,7 +140,7 @@ unsigned char decode_operator(unsigned char instruction){
  * @brief Decodes immediate constants by masking out the 3 most significant bits
  * 
  * @param instruction instruction to decode
- * @return int 
+ * @return char
  */
 char decode_immediate(unsigned char instruction){
     // check size of char to determine shift
@@ -155,7 +155,7 @@ char decode_immediate(unsigned char instruction){
  * 
  * @param instruction the instruction from which to decode the register
  * @param arg_num the position of the argument to decode 0 decodes argument R (first arg) and 1 decodes argument S (second arg)
- * @return int 
+ * @return unsigned char
  */
 unsigned char decode_register(unsigned char instruction, int arg_num){
     if(!(arg_num == 0 || arg_num == 1)){
