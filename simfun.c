@@ -55,7 +55,6 @@ int main(int argc, char* argv[]){
     fread(program, sizeof(unsigned char), MAX_INSTRUCTIONS, file);
     fclose(file);
     for(pc = 0; pc < MAX_INSTRUCTIONS; pc++){
-        // printf("%i\n", program[pc]);
         int instruction = program[pc];
         int operator = decode_operator(instruction);
         if(operator == HLT){
