@@ -14,7 +14,7 @@ For example, to assemble a SimplyISA file called `square.s` you would run `./ass
 Note the following syntax specific to this assembler:
 
 - Instructions must be seperated with newlines
-- Operators are case sensitive (must be in all caps)
+- Operators and registers are case sensitive (must be in all caps)
 - Labels must end with a `:`
 - Labels must include an instruction or constant *on the same line*
 - brackets (`[]`) are neither required nor supported
