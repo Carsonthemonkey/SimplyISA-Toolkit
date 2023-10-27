@@ -91,7 +91,7 @@ int main(int argc, char* argv[]){
             //decode immediate and store in X0
             int immediate = decode_immediate(instruction);
             if(VERBOSE) printf("info LDI: loading %i into X0\n", immediate);
-            registers[X0] = (unsigned char)immediate;
+            registers[X0] = immediate;
         }
         else if (operator == ST){
             int R = decode_register(instruction, 0);
